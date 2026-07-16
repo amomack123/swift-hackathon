@@ -63,6 +63,9 @@ export class GitClient {
   async getStagedFiles(): Promise<StagedChange[]> {
     try {
       const status = await this.git.status();
+      // status paths are repo-root-relative; resolve against the root so
+      // per-file diffs work even when invoked from a subdirectory.
+      const root = await this.getRepoRoot();
       const stagedFiles: StagedChange[] = [];
 
       // Process files that are staged (in the index)
@@ -70,7 +73,10 @@ export class GitClient {
         for (const file of status.files) {
           // Only include staged files
           if (file.index !== ' ' && file.index !== '?') {
-            const diff = await this.git.diff(['--cached', file.path]);
+            // Pass an absolute path with the `--` separator: `--` disambiguates
+            // the path from a revision, and the absolute path is cwd-independent.
+            const absPath = resolve(root, file.path);
+            const diff = await this.git.diff(['--cached', '--', absPath]);
             stagedFiles.push({
               file: file.path,
               status: (file.index as any) || 'M',

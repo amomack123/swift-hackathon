@@ -4,6 +4,4 @@
 
 ## Files changed in the latest commit
 
-- `AGENTS.md` (M)
-- `gitagent-cli/src/index.ts` (M)
-- `gitagent-cli/src/writer/filesystem.ts` (M)
+- `gitagent-cli/src/ai/client.ts` (M)

@@ -15,18 +15,42 @@
 
 import { simpleGit } from 'simple-git';
 import type { SimpleGit } from 'simple-git';
-import { resolve } from 'path';
+import { resolve, extname } from 'path';
 
 export interface StagedChange {
   file: string;
   status: 'A' | 'M' | 'D' | 'R' | 'C' | 'U'; // Added, Modified, Deleted, Renamed, Copied, Unmerged
   diff: string;
+  additions: number;
+  deletions: number;
+  isBinary: boolean;
+  extension: string;
+  /** Previous path, only set when status is 'R' (renamed) or 'C' (copied). */
+  oldFile?: string;
 }
 
 export interface DiffSummary {
   files: StagedChange[];
   totalChanges: number;
   rawDiff: string;
+  branch: string;
+  repoRoot: string;
+}
+
+/**
+ * Parses a single `git diff --numstat` line ("additions\tdeletions\tpath")
+ * into structured counts. Binary files report "-" for both counts.
+ */
+function parseNumstat(line: string): { additions: number; deletions: number; isBinary: boolean } {
+  const [addRaw, delRaw] = line.split('\t');
+  if (addRaw === '-' || delRaw === '-') {
+    return { additions: 0, deletions: 0, isBinary: true };
+  }
+  return {
+    additions: Number(addRaw) || 0,
+    deletions: Number(delRaw) || 0,
+    isBinary: false,
+  };
 }
 
 /**
@@ -76,11 +100,23 @@ export class GitClient {
             // Pass an absolute path with the `--` separator: `--` disambiguates
             // the path from a revision, and the absolute path is cwd-independent.
             const absPath = resolve(root, file.path);
-            const diff = await this.git.diff(['--cached', '--', absPath]);
+            // For renames/copies, git needs BOTH the old and new path to correlate
+            // them; scoped to only the new path it can't detect the rename and
+            // reports the file as a brand-new addition instead.
+            const pathArgs = file.from ? [resolve(root, file.from), absPath] : [absPath];
+            const diff = await this.git.diff(['--cached', '--', ...pathArgs]);
+            const numstatRaw = await this.git.raw(['diff', '--cached', '--numstat', '--', ...pathArgs]);
+            const { additions, deletions, isBinary } = parseNumstat(numstatRaw.trim());
+
             stagedFiles.push({
               file: file.path,
               status: (file.index as any) || 'M',
               diff: diff,
+              additions,
+              deletions,
+              isBinary,
+              extension: extname(file.path),
+              ...(file.from ? { oldFile: file.from } : {}),
             });
           }
         }
@@ -101,11 +137,14 @@ export class GitClient {
     try {
       const rawDiff = await this.getStagedDiff();
       const files = await this.getStagedFiles();
+      const [branch, repoRoot] = await Promise.all([this.getCurrentBranch(), this.getRepoRoot()]);
 
       return {
         files,
         totalChanges: files.length,
         rawDiff,
+        branch,
+        repoRoot,
       };
     } catch (error) {
       console.error('Error generating diff summary:', error);
@@ -256,3 +295,4 @@ export class GitClient {
   }
 }
 
+//hi

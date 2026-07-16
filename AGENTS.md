@@ -4,4 +4,6 @@
 
 ## Files changed in the latest commit
 
-- `gitagent-cli/src/ai/client.ts` (M)
+- `AGENTS.md` (M)
+- `gitagent-cli/src/parser/diffFilter.ts` (M)
+- `output.json` (A)

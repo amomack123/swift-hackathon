@@ -1,0 +1,1 @@
+// # Entry point: Handles CLI commands (init / run-hook)

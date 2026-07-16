@@ -1,0 +1,22 @@
+# --- Operating System & Editor Files ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# --- Environment Variables ---
+.env
+.env.local
+
+# --- Common Build Outputs & Dependencies ---
+node_modules/
+dist/
+build/
+out/
+bin/
+obj/
+*.log
+*.sqlite

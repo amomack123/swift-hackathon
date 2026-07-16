@@ -1,17 +1,33 @@
 [gitagent] ✓ pre-commit hook triggered
-[gitagent] 1 staged file(s) detected:
-           M  gitagent-cli/src/parser/diffFilter.ts
+[gitagent] 2 staged file(s) detected:
+           A  gitagent-cli/src/parser/newConvention.md
+           M  gitagent-cli/src/writer/filesystem.ts
 [gitagent] Wrote mock context → C:\Users\murta\swift-hackathon\AGENTS.md
 [gitagent] ✓ Re-staged generated AGENTS.md into the commit
 
 {
   "files": [
     {
-      "file": "gitagent-cli/src/parser/diffFilter.ts",
+      "file": "gitagent-cli/src/parser/newConvention.md",
+      "status": "A",
+      "diff": "diff --git a/gitagent-cli/src/parser/newConvention.md b/gitagent-cli/src/parser/newConvention.md\nnew file mode 100644\nindex 0000000..a8baf82\n--- /dev/null\n+++ b/gitagent-cli/src/parser/newConvention.md\n@@ -0,0 +1,3 @@\n+# Sample Rule\n+\n+This is a new AI convention file.\n",
+      "additions": 3,
+      "deletions": 0,
+      "isBinary": false,
+      "extension": ".md"
+    },
+    {
+      "file": "gitagent-cli/src/writer/filesystem.ts",
       "status": "M",
-      "diff": "diff --git a/gitagent-cli/src/parser/diffFilter.ts b/gitagent-cli/src/parser/diffFilter.ts\nindex c9ee6e8..5ebddcc 100644\n--- a/gitagent-cli/src/parser/diffFilter.ts\n+++ b/gitagent-cli/src/parser/diffFilter.ts\n@@ -1,2 +1,3 @@\n // Cleaning lockfiles & parsing config files\n // gitagent hook test at 2026-07-16\n+// fresh test at Thu Jul 16 14:53:12 EDT 2026\n"
+      "diff": "diff --git a/gitagent-cli/src/writer/filesystem.ts b/gitagent-cli/src/writer/filesystem.ts\nindex 2967bc3..e3cd995 100644\n--- a/gitagent-cli/src/writer/filesystem.ts\n+++ b/gitagent-cli/src/writer/filesystem.ts\n@@ -1 +1,3 @@\n // Editing the actual Markdown & injecting imports// test for json output\n+\n+// sample change for teammate demo\n",
+      "additions": 2,
+      "deletions": 0,
+      "isBinary": false,
+      "extension": ".ts"
     }
   ],
-  "totalChanges": 1,
-  "rawDiff": "diff --git a/gitagent-cli/src/parser/diffFilter.ts b/gitagent-cli/src/parser/diffFilter.ts\nindex c9ee6e8..5ebddcc 100644\n--- a/gitagent-cli/src/parser/diffFilter.ts\n+++ b/gitagent-cli/src/parser/diffFilter.ts\n@@ -1,2 +1,3 @@\n // Cleaning lockfiles & parsing config files\n // gitagent hook test at 2026-07-16\n+// fresh test at Thu Jul 16 14:53:12 EDT 2026\n"
+  "totalChanges": 2,
+  "rawDiff": "diff --git a/gitagent-cli/src/parser/newConvention.md b/gitagent-cli/src/parser/newConvention.md\nnew file mode 100644\nindex 0000000..a8baf82\n--- /dev/null\n+++ b/gitagent-cli/src/parser/newConvention.md\n@@ -0,0 +1,3 @@\n+# Sample Rule\n+\n+This is a new AI convention file.\ndiff --git a/gitagent-cli/src/writer/filesystem.ts b/gitagent-cli/src/writer/filesystem.ts\nindex 2967bc3..e3cd995 100644\n--- a/gitagent-cli/src/writer/filesystem.ts\n+++ b/gitagent-cli/src/writer/filesystem.ts\n@@ -1 +1,3 @@\n // Editing the actual Markdown & injecting imports// test for json output\n+\n+// sample change for teammate demo\n",
+  "branch": "Murtaza",
+  "repoRoot": "C:/Users/murta/swift-hackathon"
 }

@@ -5,5 +5,4 @@
 ## Files changed in the latest commit
 
 - `AGENTS.md` (M)
-- `gitagent-cli/src/git/gitClient.ts` (M)
-- `gitagent-cli/src/parser/diffFilter.ts` (M)
+- `output.json` (M)

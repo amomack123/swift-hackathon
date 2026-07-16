@@ -20,3 +20,12 @@ bin/
 obj/
 *.log
 *.sqlite
+
+# --- TypeScript ---
+*.tsbuildinfo
+
+# --- GitAgent: local-only agent config & personal rules ---
+# Personal project overrides (e.g. API keys) — must never be committed.
+.devin/config.local.json
+# Developer-specific rules that shouldn't be shared with the team.
+AGENTS.local.md

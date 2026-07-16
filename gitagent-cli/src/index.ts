@@ -23,6 +23,8 @@ program
  * Milestone 1 scope: prove the loop by extracting the staged diff via the
  * Interceptor (GitClient) and writing a hardcoded mock AGENTS.md, then
  * re-staging it so it lands in the same atomic commit.
+ *
+ * Outputs the DiffSummary as JSON to stdout for downstream parsers to consume.
  */
 program
   .command('run-hook')
@@ -33,6 +35,7 @@ program
     // Abort gracefully if we somehow run outside a git repo (never block a commit).
     if (!(await git.validateGitEnvironment())) {
       console.error('[gitagent] Not a git repository — skipping.');
+      process.stdout.write(JSON.stringify({ error: 'Not a git repository' }, null, 2));
       return;
     }
 
@@ -46,6 +49,7 @@ program
 
     if (summary.totalChanges === 0) {
       console.log('[gitagent] No staged changes — nothing to generate.');
+      process.stdout.write(JSON.stringify(summary, null, 2));
       return;
     }
 
@@ -65,6 +69,10 @@ program
     // Git Index Restorer: stage the generated file into this commit.
     await git.stageFile(mockPath);
     console.log('[gitagent] ✓ Re-staged generated AGENTS.md into the commit');
+
+    // Output the DiffSummary as JSON for downstream parsers to consume.
+    process.stdout.write('\n');
+    process.stdout.write(JSON.stringify(summary, null, 2));
   });
 
 /**

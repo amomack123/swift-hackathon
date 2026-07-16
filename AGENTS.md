@@ -4,4 +4,6 @@
 
 ## Files changed in the latest commit
 
-- `gitagent-cli/src/parser/diffFilter.ts` (M)
+- `AGENTS.md` (M)
+- `gitagent-cli/src/index.ts` (M)
+- `gitagent-cli/src/writer/filesystem.ts` (M)

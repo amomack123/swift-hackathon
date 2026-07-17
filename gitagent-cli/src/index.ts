@@ -98,12 +98,14 @@ program
             : ''),
       );
 
-      if (result.updates.length === 0) {
+      const updates = result.updates.filter((u) => u.target_file.startsWith(".gitagent/rules/"));
+
+      if (updates.length === 0) {
         console.log('[gitagent] No harness files to update.');
         return;
       }
 
-      const { written } = applyMarkdownUpdates(result.updates, repoRoot);
+      const { written } = applyMarkdownUpdates(updates, repoRoot);
 
       console.log(`[gitagent] Wrote ${written.length} harness file(s):`);
       for (const f of written) {

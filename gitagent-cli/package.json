@@ -1,6 +1,7 @@
 {
   "name": "gitagent-cli",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -15,7 +16,6 @@
     "typescript": "^7.0.2"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.111.0",
     "commander": "^15.0.0",
     "openai": "^6.47.0",
     "simple-git": "^3.36.0"

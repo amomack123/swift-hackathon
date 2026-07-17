@@ -26,7 +26,7 @@ Instructions:
 3. Rewrite each affected file as a complete updated document, merging existing content with the new information.
 
 Each target_file must:
-- be a repository-relative Markdown path under rules/, memory/, or skills/;
+- be a repository-relative Markdown path under .gitagent/rules/, .gitagent/memory/, or .gitagent/skills/;
 - use forward slashes and never contain ..;
 - contain the complete final file contents, not a patch or fragment.
 

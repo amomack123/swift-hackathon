@@ -16,9 +16,9 @@ function safeRead(filePath: string): string {
 }
 
 function loadContext(subDir: string, repoRoot: string): CurrentContext {
-  const rulesDir = join(repoRoot, 'rules');
-  const memoryDir = join(repoRoot, 'memory');
-  const skillsDir = join(repoRoot, 'skills', subDir);
+  const rulesDir = join(repoRoot, '.gitagent', 'rules');
+  const memoryDir = join(repoRoot, '.gitagent', 'memory');
+  const skillsDir = join(repoRoot, '.gitagent', 'skills', subDir);
 
   const rules = [
     safeRead(join(rulesDir, 'global.md')),

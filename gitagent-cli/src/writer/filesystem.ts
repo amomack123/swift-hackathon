@@ -40,8 +40,15 @@ export function applyMarkdownUpdates(
 }
 
 function resolveMarkdownPath(root: string, inputPath: string, operationIndex: number): string {
-  if (!inputPath || isAbsolute(inputPath) || !inputPath.endsWith('.md')) {
-    throw new Error(`Operation ${operationIndex}: path must be a relative .md file path.`);
+  if (
+    !inputPath ||
+    isAbsolute(inputPath) ||
+    !inputPath.endsWith('.md') ||
+    !inputPath.startsWith('.gitagent/')
+  ) {
+    throw new Error(
+      `Operation ${operationIndex}: path must be a relative .md file path under .gitagent/.`,
+    );
   }
 
   const absolutePath = resolve(root, inputPath);

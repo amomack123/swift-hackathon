@@ -11,16 +11,23 @@ import { readFileSync } from 'fs';
  * 
  * @param jsonPath - Path to the JSON file containing markdown updates
  * @param outputRoot - Repository directory where files will be written
+ * @throws When the JSON file cannot be read or contains invalid data
  */
-function runUpdate(jsonPath: string, outputRoot: string) {
-  // Read the JSON file containing the markdown updates
-  const json = readFileSync(jsonPath, 'utf8');
-  
-  // Apply the markdown updates to the repository and get the result
-  const result = applyMarkdownUpdates(json, outputRoot);
-  
-  // Log the list of files that were successfully written
-  console.log('Written files:', result.written);
+export function runUpdate(jsonPath: string, outputRoot: string) {
+  try {
+    // Read the JSON file containing the markdown updates
+    const json = readFileSync(jsonPath, 'utf8');
+    
+    // Apply the markdown updates to the repository and get the result
+    const result = applyMarkdownUpdates(json, outputRoot);
+    
+    // Log the list of files that were successfully written
+    console.log('Written files:', result.written);
+  } catch (error) {
+    // Handle file reading errors or markdown update errors
+    console.error('Error applying markdown updates:', error instanceof Error ? error.message : error);
+    throw error;
+  }
 }
 
 // This function would be called by CLI command handlers (e.g., when user runs a command like 'gitagent update')

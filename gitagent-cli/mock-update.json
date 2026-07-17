@@ -1,0 +1,16 @@
+{
+  "updates": [
+    {
+      "target_file": "AGENTS.md",
+      "content": "# Mock Project Instructions\n\n## Testing\n\nRun tests and type-check before committing.\n"
+    },
+    {
+      "target_file": "rules/auth.md",
+      "content": "# Authentication Rules\n\nUse the native fetch API for authenticated requests.\n"
+    },
+    {
+      "target_file": "memory/auth-migration.md",
+      "content": "# Authentication Migration\n\nAuthentication requests migrated from the legacy HTTP client to native fetch.\n"
+    }
+  ]
+}

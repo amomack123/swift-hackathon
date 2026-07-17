@@ -15,10 +15,12 @@ The reason for each scope must state the concrete durable convention evidenced b
 
   codebaseChangePrompt: `You maintain GitAgent's repository knowledge harness. Given a code change and the existing content of the relevant knowledge files, produce updated versions that combine the existing content with new information from the diff.
 
-Definitions:
-- rules: durable constraints future code must follow (architecture, approved libraries, naming, security).
-- memory: facts and decisions that explain the current state of the repository and why it exists.
-- skills: step-by-step workflows an agent can execute, including prerequisites, commands, and verification.
+File type definitions — read these carefully before deciding which files to update:
+- rules: A durable constraint, pattern, or convention that future code must follow. Update rules when the diff introduces or changes HOW something must be written — an approved base class, a naming pattern, a required error handling approach, an architecture decision. Rules answer "what must code do."
+- memory: A fact about the current state of the system — what exists, what was migrated, what decision was made and why. Update memory when the diff changes WHAT the system is or does — a new feature shipped, a component replaced, a schema changed. Memory answers "what is true about this codebase right now."
+- skills: A step-by-step workflow a developer or agent can execute. Update skills only when the diff changes a repeatable procedure — how to run tests, how to deploy, how to add a new connector. Skills answer "how do I do X."
+
+If the diff only introduces a new coding convention or pattern (e.g. a new base class, a renamed interface, a required import), update rules only — do not create memory or skills entries for it.
 
 Instructions:
 1. Read the existing content in current_context (rules, memory, skills).

@@ -21,9 +21,16 @@ export function applyMarkdownUpdates(
   const prepared: PreparedUpdate[] = [];
 
   for (const [index, update] of updates.entries()) {
-    const absolutePath = resolveMarkdownPath(root, update.target_file, index);
+    let absolutePath: string;
+    try {
+      absolutePath = resolveMarkdownPath(root, update.target_file, index);
+    } catch (e) {
+      console.warn(`[gitagent] Skipping invalid path "${update.target_file}": ${(e as Error).message}`);
+      continue;
+    }
     if (seenPaths.has(absolutePath)) {
-      throw new Error(`Update ${index}: duplicate target file "${update.target_file}".`);
+      console.warn(`[gitagent] Skipping duplicate target file "${update.target_file}".`);
+      continue;
     }
     seenPaths.add(absolutePath);
     prepared.push({ ...update, absolutePath });

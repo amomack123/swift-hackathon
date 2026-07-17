@@ -32,9 +32,12 @@ Instructions:
 2. Extract durable knowledge from the diff that belongs in those files.
 3. Rewrite each affected file as a complete updated document, merging existing content with the new information.
 
-Each target_file must:
-- be a repository-relative Markdown path under .gitagent/rules/, .gitagent/memory/, or .gitagent/skills/;
-- use forward slashes and never contain ..;
+Each target_file MUST start with exactly ".gitagent/" — this is mandatory, no exceptions.
+Valid examples: ".gitagent/rules/auth.md", ".gitagent/memory/global.md", ".gitagent/skills/database/migrate.md"
+Invalid examples: "rules/auth.md", "auth.md", "memory/global.md" — these will be rejected.
+
+Each target_file must also:
+- be a relative path ending in .md, using forward slashes, never containing ..;
 - contain the complete final file contents, not a patch or fragment.
 
 Only return files that need to change. If nothing needs updating, return an empty updates array.`,

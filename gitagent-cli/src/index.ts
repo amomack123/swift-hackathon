@@ -3,7 +3,6 @@ import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
 import { GitClient } from './git/gitClient.js';
 import { GitAgentAIClient } from './ai/client.js';
-import { filterJunk } from './parser/diffFilter.js';
 import { applyMarkdownUpdates } from './writer/filesystem.js';
 import type { CurrentContext } from './ai/client.js';
 
@@ -69,23 +68,13 @@ program
 
     console.log('[gitagent] pre-commit hook triggered');
 
-    const summary = await git.getDiffSummary();
-    const filtered = filterJunk(summary.files).filter(
-      (f) => !f.isBinary && f.diff.trim().length > 0,
-    );
-
-    if (filtered.length === 0) {
-      console.log('[gitagent] No meaningful staged changes — skipping.');
+    const rawDiff = await git.getRawStagedDiff();
+    if (!rawDiff.trim()) {
+      console.log('[gitagent] Nothing staged — skipping.');
       return;
     }
 
-    console.log(`[gitagent] ${filtered.length} staged file(s) after junk filter:`);
-    for (const f of filtered) {
-      console.log(`           ${f.status}  ${f.file}`);
-    }
-
-    const rawDiff = filtered.map((f) => f.diff).join('\n');
-    const repoRoot = summary.repoRoot;
+    const repoRoot = await git.getRepoRoot();
 
     try {
       const ai = new GitAgentAIClient();

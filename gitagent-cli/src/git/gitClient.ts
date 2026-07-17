@@ -83,6 +83,10 @@ export class GitClient {
     }
   }
 
+  async getRawStagedDiff(): Promise<string> {
+    return await this.git.diff(['--cached']);
+  }
+
   async stageFiles(filePaths: string[]): Promise<void> {
     try {
       await this.git.add(filePaths);

@@ -56,10 +56,10 @@ program
   .version('1.0.0');
 
 program
-  .command('run-hook')
+  .command('run-hook [repoPath]')
   .description('Invoked by the pre-commit hook: extract staged diff, classify, and update harness files')
-  .action(async () => {
-    const git = new GitClient();
+  .action(async (repoPath?: string) => {
+    const git = new GitClient(repoPath);
 
     if (!(await git.validateGitEnvironment())) {
       console.error('[gitagent] Not a git repository — skipping.');

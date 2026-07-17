@@ -119,12 +119,13 @@ export class GitAgentAIClient {
   async analyzeDiff(rawDiff: string, contextLoader: ContextLoader): Promise<DiffAnalysisResult> {
     const assessment = await this.assessChange(rawDiff);
 
-    if (!assessment.change_required || assessment.changes.length === 0) {
-      return { assessment, updates: [] };
-    }
+    const changes =
+      assessment.changes.length > 0
+        ? assessment.changes
+        : [{ sub_directory: 'global', reason: 'Repository context update' }];
 
     const allUpdates: HarnessUpdate[] = [];
-    for (const change of assessment.changes) {
+    for (const change of changes) {
       const context = await contextLoader(change.sub_directory);
       const result = await this.analyzeHarnessChange({
         intent: change.reason,

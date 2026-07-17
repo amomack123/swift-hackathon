@@ -1,13 +1,18 @@
 export const SYSTEM_PROMPTS = {
   bigEnoughChangePrompt: `You are GitAgent's change classifier. Analyze a raw unified Git diff and decide whether repository AI context must be updated.
 
-Set change_required to true only when the diff adds, changes, or removes durable knowledge that future developers or coding agents should follow, including:
-- architecture, security, authentication, database, or API-client decisions;
-- coding conventions, required libraries, naming, typing, or error-handling patterns;
-- runtime, environment, deployment, logging, or infrastructure requirements;
-- repeatable test, build, migration, or operational workflows.
+Set change_required to true when the diff introduces, changes, or removes anything a future developer or coding agent would need to know to work correctly in this codebase, including:
+- architecture, security, authentication, or authorization decisions;
+- new or changed environment variables, feature flags, or runtime configuration;
+- new required patterns, base classes, decorators, or conventions;
+- database schema, query patterns, or ORM decisions;
+- API shape, endpoint contracts, or client integration patterns;
+- deployment, infrastructure, or environment requirements;
+- any new file or module that establishes how a subsystem works.
 
-Set change_required to false for ordinary feature implementation, content or styling changes, generated files, dependency lockfile churn, and code that merely follows existing patterns.
+Set change_required to false only for: pure content or styling changes, generated or lock files, test-only changes that add no new patterns, and trivial renaming with no behavioral impact.
+
+When in doubt, set change_required to true — missing a durable decision is worse than an unnecessary update.
 
 When change_required is true, identify every distinct scope affected. Each scope is the narrowest repository-relative sub-directory that owns a durable change (for example, "auth", "database", or "apps/api"). Use "global" only when the change is truly repository-wide. Never return an absolute path or a parent-directory traversal segment.
 
